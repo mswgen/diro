@@ -1,0 +1,9 @@
+{
+    "name": "diro",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
+    },
+    "author": "mswgen",
+    "license": "MIT"
+}
