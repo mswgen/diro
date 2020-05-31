@@ -60,6 +60,12 @@ const server = http.createServer(async (req, res) => {
                     'Location': decodeURIComponent(list.urls.find(x => x.from == parsed.pathname.substr(1)).to)
                 });
                 res.end();
+            } else if (list.urls.find(x => x.from == parsed.pathname.substr(1).split('/code')[0])) {
+                res.writeHead(200);
+                res.end(JSON.stringify({
+                    from: `https://diro.ga/${list.urls.find(x => x.from == parsed.pathname.substr(1).split('/code')[0]).from}`,
+                    to: `https://diro.ga/${list.urls.find(x => x.from == parsed.pathname.substr(1).split('/code')[0]).to}`
+                }));
             } else {
                 res.writeHead(302, {
                     'Location': 'https://diro.ga'
