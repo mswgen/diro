@@ -15,7 +15,7 @@ const server = http.createServer(async (req, res) => {
                 res.writeHead(400);
                 res.end();
             } else {
-                if (list.urls.find(x => x.to == post.url)) {
+                if (list.urls.find(x => x.to == decodeURIComponent(post.url))) {
                     res.writeHead(200);
                     res.end(JSON.stringify({
                         code: list.urls.find(x => x.to == post.url).from
