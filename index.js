@@ -26,6 +26,9 @@ const server = http.createServer(async (req, res) => {
                     for (var i = 0; i < 7; i++) {
                         random += chars[Math.floor(Math.random() * chars.length)];
                     }
+                    if (post.custom && !list.urls.find(x => x.from == post.custom)) {
+                        random = post.custom;
+                    }
                     list.urls.push({
                         from: random,
                         to: post.url
@@ -57,14 +60,14 @@ const server = http.createServer(async (req, res) => {
         } else {
             if (list.urls.find(x => x.from == parsed.pathname.substr(1))) {
                 res.writeHead(302, {
-                    'Location': decodeURIComponent(list.urls.find(x => x.from == parsed.pathname.substr(1)).to)
+                    'Location': list.urls.find(x => x.from == parsed.pathname.substr(1)).to
                 });
                 res.end();
             } else if (list.urls.find(x => x.from == parsed.pathname.substr(1).split('/code')[0])) {
                 res.writeHead(200);
                 res.end(JSON.stringify({
                     from: `https://diro.ga/${list.urls.find(x => x.from == parsed.pathname.substr(1).split('/code')[0]).from}`,
-                    to: decodeURIComponent(list.urls.find(x => x.from == parsed.pathname.substr(1).split('/code')[0]).to)
+                    to: list.urls.find(x => x.from == parsed.pathname.substr(1).split('/code')[0]).to
                 }));
             } else {
                 res.writeHead(302, {
