@@ -64,7 +64,7 @@ const server = http.createServer(async (req, res) => {
                 res.writeHead(200);
                 res.end(JSON.stringify({
                     from: `https://diro.ga/${list.urls.find(x => x.from == parsed.pathname.substr(1).split('/code')[0]).from}`,
-                    to: `https://diro.ga/${list.urls.find(x => x.from == parsed.pathname.substr(1).split('/code')[0]).to}`
+                    to: `https://diro.ga/${decodeURIComponent(list.urls.find(x => x.from == parsed.pathname.substr(1).split('/code')[0]).to)}`
                 }));
             } else {
                 res.writeHead(302, {
