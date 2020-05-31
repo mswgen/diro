@@ -31,7 +31,7 @@ const server = http.createServer(async (req, res) => {
                     }
                     list.urls.push({
                         from: random,
-                        to: post.url
+                        to: decodeURIComponent(post.url)
                     });
                     fs.writeFile('./list.json', JSON.stringify(list), () => {
                         res.writeHead(200);
