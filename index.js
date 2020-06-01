@@ -15,7 +15,7 @@ const server = http.createServer(async (req, res) => {
                 res.writeHead(400);
                 res.end();
             } else {
-                if (list.urls.find(x => x.to == decodeURIComponent(post.url))) {
+                if (list.urls.find(x => x.to == decodeURIComponent(post.url)) && !post.custom) {
                     res.writeHead(200);
                     res.end(JSON.stringify({
                         code: list.urls.find(x => x.to == post.url).from
@@ -64,11 +64,18 @@ const server = http.createServer(async (req, res) => {
                 });
                 res.end();
             } else if (list.urls.find(x => x.from == parsed.pathname.substr(1).split('/code')[0])) {
-                res.writeHead(200);
+                res.writeHead(200, {
+                    'Content-Type': 'application/json; charset=utf-8'
+                });
                 res.end(JSON.stringify({
                     from: `https://diro.ga/${list.urls.find(x => x.from == parsed.pathname.substr(1).split('/code')[0]).from}`,
                     to: list.urls.find(x => x.from == parsed.pathname.substr(1).split('/code')[0]).to
                 }));
+            } else if (list.urls.find(x => x.from == parsed.pathname.substr(1).split('/frame')[0])) {
+                res.writeHead(200, {
+                    'Contnet-Type': 'text/html; charset=utf-8'
+                });
+                res.end(`<iframe src="${list.urls.find(x => x.from == parsed.pathname.substr(1).split('/frame')[0]).to}"></iframe>`);
             } else {
                 res.writeHead(302, {
                     'Location': 'https://diro.ga'
